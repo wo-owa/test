@@ -28,9 +28,9 @@ jobs:
         with:
           source-directory: "frontend/output"
           destination-github-username: wo-o29
-          destination-repository-name: 2025-moaon-fork
+          destination-repository-name: test
           user-email: ${{ secrets.WOOHYEOK_EMAIL }}
-          commit-message: "auto sync from org repo"
+          commit-message: ${{ github.event.commits[0].message }}
           target-branch: develop
 
       - name: Test get variable exported by push-to-another-repository
