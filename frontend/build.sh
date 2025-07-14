@@ -1,3 +1,3 @@
 mkdir -p output
-cp -R ./* ./output
-cp -R ./output ./
+cp -R ./test/* ./output
+cp -R ./output ./test/
