@@ -8,5 +8,5 @@ mkdir -p output
 # .github 복사
 cp -R ../.github ./output/
 
-# rsync로 output 폴더 제외하고 frontend 전체 복사
+# rsync로 frontend 전체 복사
 rsync -av --exclude=output --exclude=.git --exclude=node_modules --exclude=.vscode ./ ./output/frontend/
