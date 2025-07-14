@@ -28,7 +28,7 @@ jobs:
         with:
           source-directory: "frontend/output"
           destination-github-username: wo-o29
-          destination-repository-name: test
+          destination-repository-name: test-fork
           user-email: ${{ secrets.WOOHYEOK_EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: develop
