@@ -9,6 +9,12 @@ jobs:
   sync-forks:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout target repo
+        uses: actions/checkout@v3
+        with:
+          ref: develop
+          persist-credentials: false # 권장 옵션
+
       - name: Sync forked repo
         uses: aormsby/Fork-Sync-With-Upstream-action@v2.1
         with:
