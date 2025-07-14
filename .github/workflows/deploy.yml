@@ -20,6 +20,10 @@ jobs:
         run: chmod +x ./build.sh && sh ./build.sh
         working-directory: ./frontend
 
+      - name: Check output directory contents
+        run: ls -al ./output && find ./output
+        working-directory: ./frontend
+
       - name: Pushes to another repository
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
