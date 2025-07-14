@@ -27,7 +27,7 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.GH_TOKEN }}
         with:
           source-directory: "output"
-          destination-github-username: wo-o29 # 본인 Github username 작성
+          destination-github-username: wo-o29
           destination-repository-name: test
           user-email: ${{ secrets.WOOHYEOK_EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
