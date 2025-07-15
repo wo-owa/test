@@ -7,3 +7,4 @@ mkdir -p output
 
 # rsync로 frontend 전체 복사
 rsync -av --exclude=output --exclude=.git --exclude=node_modules --exclude=.vscode ./ ./output/frontend/
+ 

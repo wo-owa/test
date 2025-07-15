@@ -1,0 +1,56 @@
+name: 리뷰 자동 지정
+
+on:
+  pull_request:
+    # PR이 처음 생성되었을 때, Draft 상태에서 review 상태로 전환되었을 때
+    types: [opened, ready_for_review]
+
+jobs:
+  assign:
+    # 최신 ubuntu 환경에서 실행
+    runs-on: ubuntu-latest
+    steps:
+      - name: 코드 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 리뷰어 설정
+        id: set_reviewers
+        run: |
+          FE_MEMBERS=("wo-o29" "kitcatpro")
+          BE_MEMBERS=("wo-o29" "wh29")
+          AUTHOR="${{ github.actor }}"
+
+          FE_REVIEWERS=()
+          BE_REVIEWERS=()
+
+          # FE/BE 팀원 중 본인을 제외한 리뷰어 목록 생성
+          for user in "${FE_MEMBERS[@]}"; do
+            if [[ "$user" != "$AUTHOR" ]]; then
+              FE_REVIEWERS+=("$user")
+            fi
+          done
+
+          for user in "${BE_MEMBERS[@]}"; do
+            if [[ "$user" != "$AUTHOR" ]]; then
+              BE_REVIEWERS+=("$user")
+            fi
+          done
+
+          # PR 작성자가 FE 멤버인지 BE 멤버인지 판별
+          if printf '%s\n' "${FE_MEMBERS[@]}" | grep -qx "$AUTHOR"; then
+            REVIEWERS="${FE_REVIEWERS[*]}"
+          elif printf '%s\n' "${BE_MEMBERS[@]}" | grep -qx "$AUTHOR"; then
+            REVIEWERS="${BE_REVIEWERS[*]}"
+          else
+            REVIEWERS=""
+          fi
+
+          # 리뷰어 목록을 콤마(,)로 연결
+          REVIEWERS_CSV=$(echo $REVIEWERS | tr ' ' ',')
+          echo "reviewers=$REVIEWERS_CSV" >> $GITHUB_OUTPUT
+
+      - name: 담당자 및 리뷰어 지정
+        uses: hkusu/review-assign-action@v1
+        with:
+          assignees: ${{ github.actor }}
+          reviewers: ${{ steps.set_reviewers.outputs.reviewers }}

@@ -1,4 +1,4 @@
-name: FE-Dev-Deploy
+name: FE 개발환경 배포
 
 on:
   push:
@@ -12,23 +12,24 @@ jobs:
     steps:
       # 레포지토리의 코드를 컨테이너(작업 환경)로 가져오기
       # 이 작업을 해야 이후 스크립트에서 소스 코드 사용 가능
-      - uses: actions/checkout@v3
+      - name: 코드 체크아웃
+        uses: actions/checkout@v4
 
       # rsync 설치
       # rsync: 리눅스/유닉스 환경에서 파일이나 디렉토리를 복사하고 동기화하는 데 특화된 명령어
-      - name: Install rsync
+      - name: rsync 설치
         run: apk add --no-cache rsync
         working-directory: ./frontend
 
       # output 폴더 생성 및 소스 복사(build.sh 실행)
       # output 폴더를 만들고 원하는 파일/폴더 복사
-      - name: creates output
+      - name: output 폴더 생성
         run: chmod +x ./build.sh && sh ./build.sh
         working-directory: ./frontend
 
       # 다른 레포지토리로 결과물 푸쉬
       # 포크된 레포지토리와 동기화
-      - name: Pushes to another repository
+      - name: 다른 레포지토리로 푸시
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
         env:
