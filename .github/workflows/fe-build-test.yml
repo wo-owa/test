@@ -11,6 +11,22 @@ jobs:
       - name: 코드 체크아웃
         uses: actions/checkout@v4
 
+      - name: FE 팀원 여부 검사
+        run: |
+          FE_MEMBERS=("kitcatpro")
+          AUTHOR="${{ github.actor }}"
+          IS_FE=false
+          for USER in "${FE_MEMBERS[@]}"; do
+            if [[ "$USER" == "$AUTHOR" ]]; then
+              IS_FE=true
+              break
+            fi
+          done
+          if [ "$IS_FE" != "true" ]; then
+            echo "FE 팀원이 아닙니다. 빌드 중단."
+            exit 78  # 78: neutral exit code, job skipped
+          fi
+
       - name: 노드 설치
         uses: actions/setup-node@v4
         with:
