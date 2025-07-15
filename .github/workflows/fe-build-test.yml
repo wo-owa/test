@@ -4,13 +4,21 @@ on: [pull_request]
 
 jobs:
   build-test:
+    name: Build Test
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: 코드 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 노드 설치
+        uses: actions/setup-node@v4
         with:
           node-version: "20.x"
           cache: "pnpm"
+
+      - name: pnpm 설치 (corepack)
+        run: corepack enable && corepack prepare pnpm@latest --activate
 
       - name: 의존성 설치
         run: pnpm install
