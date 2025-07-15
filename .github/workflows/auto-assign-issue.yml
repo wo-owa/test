@@ -4,6 +4,9 @@ on:
   issues:
     types: [opened]
 
+permissions:
+  issues: write
+
 jobs:
   assignAuthor:
     name: 이슈 작성자 담당자 지정
