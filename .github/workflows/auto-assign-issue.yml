@@ -14,3 +14,24 @@ jobs:
     steps:
       - name: 이슈 작성자 담당자 지정
         uses: technote-space/assign-author@v1
+
+      - name: FE/BE 라벨 결정
+        id: set_label
+        run: |
+          FE_MEMBERS=("wo-o29" "kitcatpro")
+          BE_MEMBERS=("wh29")
+          AUTHOR="${{ github.actor }}"
+          LABEL=""
+          if printf '%s\n' "${FE_MEMBERS[@]}" | grep -qx "$AUTHOR"; then
+            LABEL="FE"
+          elif printf '%s\n' "${BE_MEMBERS[@]}" | grep -qx "$AUTHOR"; then
+            LABEL="BE"
+          fi
+          echo "label=$LABEL" >> $GITHUB_OUTPUT
+
+      - name: FE/BE 라벨 추가
+        if: steps.set_label.outputs.label != ''
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          labels: ${{ steps.set_label.outputs.label }}
