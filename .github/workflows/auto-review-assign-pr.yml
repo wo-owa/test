@@ -17,8 +17,8 @@ jobs:
       - name: 리뷰어 및 라벨 설정
         id: set_reviewers
         run: |
-          FE_MEMBERS=("wo-o29" "kitcatpro")
-          BE_MEMBERS=("wh29")
+          FE_MEMBERS=("kitcatpro")
+          BE_MEMBERS=("wo-o29" "wh29")
           AUTHOR="${{ github.actor }}"
 
           FE_REVIEWERS=()

@@ -18,8 +18,8 @@ jobs:
       - name: FE/BE 라벨 결정
         id: set_label
         run: |
-          FE_MEMBERS=("wo-o29" "kitcatpro")
-          BE_MEMBERS=("wh29")
+          FE_MEMBERS=("kitcatpro")
+          BE_MEMBERS=("wo-o29" "wh29")
           AUTHOR="${{ github.actor }}"
           LABEL=""
           if printf '%s\n' "${FE_MEMBERS[@]}" | grep -qx "$AUTHOR"; then
